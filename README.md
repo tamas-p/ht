@@ -2,6 +2,7 @@
 Application to test what can make a program run slower if hyperthreading is enabled.
 
 Example output:
+```
 LLC Cache = 8192 KB
 Number of physical cores = 4
 Number of logical cores = 8
@@ -103,4 +104,4 @@ lcores_elapsedtime = 8807.504000
 pcores_elapsedtime = 7686.427000
 lcores_elapsedtime / pcores_elapsedtime = 1.145852
 ---------------------------------------------------------------------------
-
+```
