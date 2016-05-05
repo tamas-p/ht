@@ -49,9 +49,9 @@ void* memcpy_thread(void* arg) {
   struct thread_arg_t* ta = (struct thread_arg_t*)arg;
 
   const size_t buffer_length = ta->llc_size_ / ta->num_pcores_ / 2;
-  printf("Thread-%d started doing memcpy operations"
+  printf("Thread-%d started doing %d memcpy operations"
          " (buffer length = cache_size / num_pcores / 2 = %zu)\n",
-         ta->thread_id_, buffer_length);
+         ta->thread_id_, ta->num_operations_, buffer_length);
 
   void* src = malloc(buffer_length);
   memset(src, 0, buffer_length);
@@ -59,9 +59,7 @@ void* memcpy_thread(void* arg) {
   memset(trg, 1, buffer_length);
 
   int i;
-  // We would like to do total num_operations_, so we give equal sized jobs for
-  // each thread.
-  for (i = 0; i < ta->num_operations_ / ta->num_threads_; i++) {
+  for (i = 0; i < ta->num_operations_; i++) {
     memcpy(trg, src, buffer_length);
     memcpy(src, trg, buffer_length);  // HT issue only happens if this one is here too
   }
@@ -76,12 +74,10 @@ void* memcpy_thread(void* arg) {
 void* fpu_thread(void* arg) {
   struct thread_arg_t* ta = (struct thread_arg_t*)arg;
 
-  printf("Thread-%d started doing FPU operations\n", ta->thread_id_);
+  printf("Thread-%d started doing %d FPU operations\n", ta->thread_id_, ta->num_operations_);
 
   int i;
-  // We would like to do total num_operations_, so we give equal sized jobs for
-  // each thread.
-  for (i = 0; i < ta->num_operations_ / ta->num_threads_; i++) {
+  for (i = 0; i < ta->num_operations_; i++) {
     for (int j = 0; j < 10000; j++) {
       double a = sqrt(i);
       a = sqrt(a);
@@ -99,12 +95,10 @@ void* fpu_thread(void* arg) {
 void* integer_thread(void* arg) {
   struct thread_arg_t* ta = (struct thread_arg_t*)arg;
 
-  printf("Thread-%d started doing integer operations\n", ta->thread_id_);
+  printf("Thread-%d started doing %d integer operations\n", ta->thread_id_, ta->num_operations_);
 
   int i;
-  // We would like to do total num_operations_, so we give equal sized jobs for
-  // each thread.
-  for (i = 0; i < ta->num_operations_ / ta->num_threads_; i++) {
+  for (i = 0; i < ta->num_operations_; i++) {
     for (int j = 0; j < 100000; j++) {
       int a = 2 * i + j;
       a = a * i + j;
@@ -141,7 +135,7 @@ double runtest(int num_threads, int num_pcores, int num_lcores, size_t llc_size,
     thread_args[t].num_lcores_ = num_lcores;
     thread_args[t].num_pcores_ = num_pcores;
     thread_args[t].llc_size_ = llc_size;
-    thread_args[t].num_operations_ = 100000;
+    thread_args[t].num_operations_ = num_pcores * 50000 / num_threads;
 
     // pthread_create(&threads[t], &attr, calculate, &(thread_args[t]));
     pthread_create(&threads[t], NULL, test, &(thread_args[t]));
