@@ -224,8 +224,8 @@ int main(int argc, char *argv[]) {
 
   printf("---------------------------------------------------------------------------\n");
 
-  // run_two_tests(num_pcores, num_lcores, cache_kb, memcpy_thread);
-  // run_two_tests(num_pcores, num_lcores, cache_kb, fpu_thread);
+  run_two_tests(num_pcores, num_lcores, cache_kb, memcpy_thread);
+  run_two_tests(num_pcores, num_lcores, cache_kb, fpu_thread);
   run_two_tests(num_pcores, num_lcores, cache_kb, integer_thread);
 
   /* Last thing that main() should do */
