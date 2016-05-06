@@ -183,12 +183,15 @@ void run_two_tests(int num_pcores, int num_lcores, size_t cache_kb, void* test()
 //--------------------------------------------------------------------------------------------------
 
 int main(int argc, char *argv[]) {
-  size_t cache_kb = execute(cmd_cache);
   // int num_pcores = execute(cmd_num_pcores);
   // int num_lcores = execute(cmd_num_lcores);
 
-  int num_pcores = execute(cmd_num_cpu) * execute(cmd_cores_per_cpu);
-  int num_lcores = execute(cmd_num_cpu) * execute(cmd_threads_per_cpu);
+  int num_cpu = execute(cmd_num_cpu);
+
+  int num_pcores = num_cpu * execute(cmd_cores_per_cpu);
+  int num_lcores = num_cpu * execute(cmd_threads_per_cpu);
+
+  size_t cache_kb = execute(cmd_cache) * num_cpu;
 
   printf("LLC Cache = %zu KB\n", cache_kb);
   printf("Number of physical cores = %d\n", num_pcores);
