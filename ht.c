@@ -172,7 +172,7 @@ double runtest(int num_threads, int num_pcores, int num_lcores, size_t llc_size,
 
 void run_two_tests(int num_pcores, int num_lcores, size_t cache_kb, void* test()) {
   double lcores_elapsedtime = runtest(num_lcores, num_pcores, num_lcores, cache_kb * 1024, test);
-  double pcores_elapsedtime = runtest(num_pcores, num_pcores, num_lcores, cache_kb * 1024, test);
+  double pcores_elapsedtime = runtest(num_lcores / 2, num_pcores, num_lcores, cache_kb * 1024, test);
 
   printf("lcores_elapsedtime = %f\n", lcores_elapsedtime);
   printf("pcores_elapsedtime = %f\n", pcores_elapsedtime);
