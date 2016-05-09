@@ -1,8 +1,9 @@
 CFLAGS=-Wall -g
 LDLIBS=-pthread -lm
 
-ht:
+all: ht htg
 
 clean:
 	rm ht
+	rm htg
 
