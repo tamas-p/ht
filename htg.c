@@ -132,7 +132,7 @@ void run_all_tests(size_t payload, int num_cpu, int num_pcores, int num_lcores, 
   for (size_t buffer_length = step;
        buffer_length < 4 * num_cpu * cache_kb * 1024;
        buffer_length += 256 * 1024) {
-    double elapsedtime = runtest(payload, buffer_length, num_lcores, num_pcores, num_lcores, cache_kb * 1024, test);
+    double elapsedtime = runtest(payload, buffer_length, num_pcores, num_lcores, test);
     printf("elapsedtime = %f\n", elapsedtime);
     printf("---------------------------------------------------------------------------\n");
   }
