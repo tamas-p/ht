@@ -107,6 +107,6 @@ lcores_elapsedtime / pcores_elapsedtime = 1.145852
 ```
 
 #htg
-Application to test multithreaded behaviour when memcpy length is increased bellow size of LLC.
+Application to test multithreaded behaviour when accumlated memcpy length is increased above size of LLC.
 
 ![alt tag](graph.png)
